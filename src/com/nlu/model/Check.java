@@ -1,4 +1,4 @@
-package model;
+package com.nlu.model;
 
 import java.util.*;
 

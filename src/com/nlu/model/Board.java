@@ -1,10 +1,10 @@
-package model;
+package com.nlu.model;
 
 import java.util.*;
 
 public class Board {
 	ArrayList<ArrayList<Integer>> arrBoard = new ArrayList<>(5);
-	ArrayList<Chessman> chesses = new ArrayList<>();
+	public ArrayList<Chessman> chesses = new ArrayList<>();
 	BoardStatus boardStatus;
 	ArrayList<Positon> listPosTake = null;
 
@@ -115,6 +115,7 @@ public class Board {
 		Board board = new Board();
 		Chessman chess42 = board.posChess(4, 2);
 		Chessman chess02 = board.posChess(0, 2);
+		Chessman chess01 = board.posChess(0, 1);
 
 		board.chessMove(chess42, new Positon(3, 2));
 		board.chessMove(chess42, new Positon(2, 2));
@@ -122,7 +123,9 @@ public class Board {
 
 		board.chessMove(chess02, new Positon(1, 2));
 		board.chessMove(chess02, new Positon(2, 2));
-		board.chessMove(chess02, new Positon(3, 3));
+		board.chessMove(chess02, new Positon(3, 2));
+
+		board.chessMove(chess01, new Positon(1, 1));
 
 		System.out.println(board.boardStatus);
 

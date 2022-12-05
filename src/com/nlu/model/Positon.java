@@ -1,4 +1,5 @@
-package model;
+package com.nlu.model;
+
 
 public class Positon {
 	int row;
