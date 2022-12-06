@@ -6,20 +6,11 @@ public class Board {
 	ArrayList<ArrayList<Integer>> arrBoard = new ArrayList<>(5);
 	public ArrayList<Chessman> chesses = new ArrayList<>();
 	BoardStatus boardStatus;
-	ArrayList<Positon> listPosTake = null;
 
 	public Board() {
 		arrBoard = createArrBoard();
 		boardStatus = new BoardStatus(this);
 		start();
-	}
-
-	public ArrayList<Positon> getListPosTake() {
-		return listPosTake;
-	}
-
-	public void setListPosTake(ArrayList<Positon> listPosTake) {
-		this.listPosTake = listPosTake;
 	}
 
 	public ArrayList<ArrayList<Integer>> getArrBoard() {
@@ -64,6 +55,14 @@ public class Board {
 		boardStatus.addStatus();
 	}
 
+	private void updateNotAddStatus() {
+		ArrayList<ArrayList<Integer>> newArrBoard = createArrBoard();
+		for (Chessman chessman : chesses) {
+			newArrBoard.get(chessman.getPositon().getRow()).set(chessman.getPositon().getCol(), chessman.getValue());
+		}
+		arrBoard = newArrBoard;
+	}
+
 	public Chessman posChess(int row, int col) {
 		for (Chessman chessman : chesses) {
 			if (chessman.getPositon().getCol() == col && chessman.getPositon().getRow() == row) {
@@ -74,6 +73,8 @@ public class Board {
 	}
 
 	public Integer posValue(int row, int col) {
+		if (row > 4 || col > 4 || row < 0 || col < 0)
+			return null;
 		return arrBoard.get(row).get(col);
 	}
 
@@ -91,10 +92,11 @@ public class Board {
 		for (Positon posTrue : Check.allPosCanGo(this, chessman)) {
 			if (posTrue.equal(pos)) {
 				chessman.move(pos);
-				if (listPosTake != null) {
-					ganh(listPosTake);
-					listPosTake = null;
-				}
+				int col = chessman.getPositon().getCol();
+				int row = chessman.getPositon().getRow();
+				ganh(Check.listPosTake(this, chessman, row, col));
+				updateNotAddStatus();
+				ganh(Check.encircle(this, chessman.getValue() * -1));// quan co phai khac voi quan co moi di
 				update();
 				break;
 			}
@@ -119,13 +121,13 @@ public class Board {
 
 		board.chessMove(chess42, new Positon(3, 2));
 		board.chessMove(chess42, new Positon(2, 2));
-		board.chessMove(chess42, new Positon(2, 3));
+		board.chessMove(chess42, new Positon(1, 3));
 
-		board.chessMove(chess02, new Positon(1, 2));
+		board.chessMove(chess02, new Positon(1, 3));
 		board.chessMove(chess02, new Positon(2, 2));
-		board.chessMove(chess02, new Positon(3, 2));
+		board.chessMove(chess02, new Positon(1, 3));
 
-		board.chessMove(chess01, new Positon(1, 1));
+//		board.chessMove(chess01, new Positon(1, 1));
 
 		System.out.println(board.boardStatus);
 
