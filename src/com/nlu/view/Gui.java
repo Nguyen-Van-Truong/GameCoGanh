@@ -22,6 +22,7 @@ public class Gui extends JFrame {
 
 	private void init() {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		this.setSize(700,700);
 		this.setBackground(Color.BLACK);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);

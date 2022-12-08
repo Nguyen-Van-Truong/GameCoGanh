@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import com.nlu.controller.Turn;
 import com.nlu.model.Board;
 import com.nlu.model.Check;
 import com.nlu.model.Chessman;
@@ -20,7 +21,7 @@ import com.nlu.model.Positon;
 public class BoardPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Board board = new Board();
-	private int turn = 0;
+	private Turn turn = new Turn();
 	private ArrayList<Positon> continuePos = new ArrayList<>();
 	private boolean isChoosedChessman = false;
 	private ArrayList<Mark> arrlMark;
@@ -59,7 +60,7 @@ public class BoardPanel extends JPanel {
 		continuePos.clear();
 		isChoosedChessman = false;
 		for (Chessman chessman : board.chesses) {
-			if (chessman.isContainPoint(x, y)) {
+			if (chessman.isContainPoint(x, y) && chessman.getValue() == turn.getTurn()) {
 				allChessmainNotChoose();
 				continuePos = Check.allPosCanGo(board, chessman);
 				chessman.isChoose = true;
@@ -80,8 +81,14 @@ public class BoardPanel extends JPanel {
 		}
 		if (chessmanIsChoose != null) {
 			for (Mark mark : arrlMark) {
-				if (mark.isContainPoint(x, y)) {
+				System.out.println(mark.getRow() + "+" + chessmanIsChoose.getRow() + "+" + mark.getColumn() + "+"
+						+ chessmanIsChoose.getColumn());
+				if (mark.isContainPoint(x, y)
+						&& (mark.getRow() != chessmanIsChoose.getRow()
+								|| mark.getColumn() != chessmanIsChoose.getColumn())
+						&& board.posValue(mark.getRow(), mark.getColumn()) == null) {
 					board.chessMove(chessmanIsChoose, mark.getPositon());
+					turn.setTurn(turn.getTurn() * -1);
 					break;
 				}
 			}

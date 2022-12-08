@@ -4,17 +4,67 @@ import java.util.*;
 
 public class Check {
 	static int count = 0;
-	//nhung quan co bi vay chet
+
+	// nhung quan co bi vay chet
 	public static ArrayList<Positon> encircle(Board board, int value) {
-		//quan co phai la quan co khac gia tri voi quan co vua di
+		// quan co phai la quan co khac gia tri voi quan co vua di
 		ArrayList<Positon> result = new ArrayList<>();
 		for (Chessman chess : board.chesses) {
-			if (allPosCanGo(board, chess).size() == 0)
-				result.add(chess.getPositon());
+//			System.out.println(isInclosed(board, chess));
+			if (isInclosed(board, chess)) {
+				System.out.println("aa:" + chess.getPositon());
+				if (chess.getValue() == value)
+					result.add(chess.getPositon());
+			}
 		}
-		System.out.println("chessesCanNotMove:" + result);
-
 		return result;
+	}
+
+	public static List<Positon> getNeighbors(Board board, Chessman chess, List<Positon> visit) {
+		if (visit == null)
+			visit = new ArrayList<Positon>();
+		visit.add(chess.getPositon());
+		List<Positon> result = new ArrayList<>();
+		int row = chess.getRow();
+		int col = chess.getColumn();
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i == 0 && j == 0)
+					continue;
+				int rowMove1 = row + i;// di chuyen 1 dong tiep theo
+				int colMove1 = col + j;// di chuyen 1 cot tiep theo
+				if (rowMove1 < 0 || rowMove1 > 4 || colMove1 < 0 || colMove1 > 4)
+					continue;
+				if (board.posValue(rowMove1, colMove1) == chess.getValue()) {
+					Positon posMove1 = new Positon(rowMove1, colMove1);
+					if (!isContainPos(visit, posMove1)) {
+						result.add(posMove1);
+						result.addAll(getNeighbors(board, board.posChess(rowMove1, colMove1), visit));
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	public static boolean isContainPos(List<Positon> result, Positon positon) {
+		for (Positon pos : result) {
+			if (pos.equal(positon))
+				return true;
+		}
+		return false;
+	}
+
+	// neu quan co va cac quan co lien ket voi quan co do, tat ca khong co nuoc di
+	// thi quan co do bi vay
+	private static boolean isInclosed(Board board, Chessman chess) {
+		if (allPosCanGo(board, chess).size() > 0)
+			return false;
+		for (Positon pos : getNeighbors(board, chess, null)) {
+			if (allPosCanGo(board, board.posChess(pos.getRow(), pos.getCol())).size() > 0)
+				return false;
+		}
+		return true;
 	}
 
 	// tat ca vi tri co the di cua 1 quan co

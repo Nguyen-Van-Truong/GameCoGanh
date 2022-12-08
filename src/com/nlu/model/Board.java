@@ -118,18 +118,16 @@ public class Board {
 		Chessman chess42 = board.posChess(4, 2);
 		Chessman chess02 = board.posChess(0, 2);
 		Chessman chess01 = board.posChess(0, 1);
+		Chessman chess44 = board.posChess(4, 4);
 
 		board.chessMove(chess42, new Positon(3, 2));
 		board.chessMove(chess42, new Positon(2, 2));
 		board.chessMove(chess42, new Positon(1, 3));
 
-		board.chessMove(chess02, new Positon(1, 3));
-		board.chessMove(chess02, new Positon(2, 2));
-		board.chessMove(chess02, new Positon(1, 3));
-
 //		board.chessMove(chess01, new Positon(1, 1));
 
 		System.out.println(board.boardStatus);
-
+		System.out.println(Check.getNeighbors(board, chess02, null));
+		System.out.println(Check.encircle(board, 1));
 	}
 }

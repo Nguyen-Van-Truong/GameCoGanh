@@ -12,14 +12,13 @@ public class Mark {
 	private Positon positon;
 	private Ellipse2D.Double e;
 	private int radius = 20;
-	public Color color = new Color(69,205,25, 0);
-	
+	public Color color = new Color(69, 205, 25, 0);
 
 	public Mark(Positon positon) {
 		super();
 		this.positon = positon;
 	}
-	
+
 	public Positon getPositon() {
 		return positon;
 	}
@@ -27,7 +26,6 @@ public class Mark {
 	public void setPositon(Positon positon) {
 		this.positon = positon;
 	}
-
 
 	public void draw(Graphics g) {
 		Graphics2D graphics2d = (Graphics2D) g;
@@ -40,6 +38,14 @@ public class Mark {
 
 	public boolean isContainPoint(int x, int y) {
 		return e.contains(new Point(x, y));
+	}
+
+	public int getRow() {
+		return positon.getRow();
+	}
+
+	public int getColumn() {
+		return positon.getCol();
 	}
 
 }

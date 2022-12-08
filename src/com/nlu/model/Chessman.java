@@ -15,9 +15,8 @@ public class Chessman {
 	public Color color;
 	public boolean isChoose = false;
 
-
 //	Check checkMove;
-	
+
 	public Chessman(Integer value, Positon positon) {
 		super();
 		this.value = value;
@@ -47,42 +46,49 @@ public class Chessman {
 		this.positon = positon;
 	}
 
+	public int getColumn() {
+		return getPositon().getCol();
+	}
+
+	public int getRow() {
+		return getPositon().getRow();
+	}
+
 	@Override
 	public String toString() {
 		return value + "";
 	}
+
 	public Chessman clone() {
 		return new Chessman(value, getPositon());
 	}
-	
+
 	public void updateColor() {
 		if (value == 1) {
 //			color = new Color(255,98,5);
-			color = new Color(255,4,132);
+			color = new Color(255, 4, 132);
 		} else {
-			color = new Color(60,121,233);
+			color = new Color(60, 121, 233);
 		}
 	}
-	
+
 	public void draw(Graphics g) {
-		Graphics2D graphics2d = (Graphics2D)g;
-		e = new Ellipse2D.Double(positon.getCol() * 203 - radius + 43, positon.getRow() * 203 - radius + 43, radius * 2, radius * 2);
+		Graphics2D graphics2d = (Graphics2D) g;
+		e = new Ellipse2D.Double(positon.getCol() * 203 - radius + 43, positon.getRow() * 203 - radius + 43, radius * 2,
+				radius * 2);
 		graphics2d.setColor(color);
 		graphics2d.fill(e);
-		if(isChoose == true) {
+		if (isChoose == true) {
 			graphics2d.setStroke(new BasicStroke(5));
-			graphics2d.setPaint(new Color(111,253,194));
-			graphics2d.drawOval(positon.getCol() * 203 - radius + 43, positon.getRow() * 203 - radius + 43, radius * 2 + 2, radius * 2 + 2);			
+			graphics2d.setPaint(new Color(111, 253, 194));
+			graphics2d.drawOval(positon.getCol() * 203 - radius + 43, positon.getRow() * 203 - radius + 43,
+					radius * 2 + 2, radius * 2 + 2);
 		}
-		
-		
+
 	}
-	
+
 	public boolean isContainPoint(int x, int y) {
 		return e.contains(new Point(x, y));
 	}
-	
-	
-	
 
 }
