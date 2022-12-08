@@ -122,12 +122,15 @@ public class Board {
 
 		board.chessMove(chess42, new Positon(3, 2));
 		board.chessMove(chess42, new Positon(2, 2));
-		board.chessMove(chess42, new Positon(1, 3));
+//		board.chessMove(chess42, new Positon(1, 3));
 
 //		board.chessMove(chess01, new Positon(1, 1));
 
 		System.out.println(board.boardStatus);
-		System.out.println(Check.getNeighbors(board, chess02, null));
-		System.out.println(Check.encircle(board, 1));
+//		System.out.println(Check.getNeighbors(board, chess02, null));
+//		System.out.println(Check.encircle(board, 1));
+		for (Chessman c : Check.allChessMustMove(board, 1)) {
+			System.out.print(c.getPositon()+";");
+		}
 	}
 }

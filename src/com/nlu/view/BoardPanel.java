@@ -2,13 +2,11 @@ package com.nlu.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -23,8 +21,8 @@ public class BoardPanel extends JPanel {
 	private Board board = new Board();
 	private Turn turn = new Turn();
 	private ArrayList<Positon> continuePos = new ArrayList<>();
-	private boolean isChoosedChessman = false;
 	private ArrayList<Mark> arrlMark;
+	private ArrayList<Chessman> chessesMustMove = new ArrayList<>();
 
 	public BoardPanel() {
 		init();
@@ -56,21 +54,38 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void isPressedChessman(int x, int y) {
-		allChessmainNotChoose();
-		continuePos.clear();
-		isChoosedChessman = false;
+		if (chessesMustMove.size() == 0) {
+			continuePos.clear();
+		}
 		for (Chessman chessman : board.chesses) {
+			if (chessesMustMove.size() > 0)
+				if (!isContainsInMustMove(chessman))
+					continue;
 			if (chessman.isContainPoint(x, y) && chessman.getValue() == turn.getTurn()) {
 				allChessmainNotChoose();
 				continuePos = Check.allPosCanGo(board, chessman);
 				chessman.isChoose = true;
-				isChoosedChessman = true;
 				break;
 			}
-
 		}
 		repaint();
+	}
 
+	private void isPressedAllMustMove(ArrayList<Chessman> chessesMustMove2) {
+		chessesMustMove2.get(0).isChoose = true;
+		for (Chessman chessman : chessesMustMove2) {
+			continuePos.addAll(Check.allPosCanGo(board, chessman));
+			System.out.println("Asdsad");
+		}
+		repaint();
+	}
+
+	private boolean isContainsInMustMove(Chessman chessman) {
+		for (Chessman c : chessesMustMove) {
+			if (c.equal(chessman))
+				return true;
+		}
+		return false;
 	}
 
 	private void moveChessman(int x, int y) {
@@ -86,14 +101,29 @@ public class BoardPanel extends JPanel {
 				if (mark.isContainPoint(x, y)
 						&& (mark.getRow() != chessmanIsChoose.getRow()
 								|| mark.getColumn() != chessmanIsChoose.getColumn())
-						&& board.posValue(mark.getRow(), mark.getColumn()) == null) {
+						&& isContinuePos(mark, chessmanIsChoose)) {
 					board.chessMove(chessmanIsChoose, mark.getPositon());
 					turn.setTurn(turn.getTurn() * -1);
+
+					continuePos.clear();
+					allChessmainNotChoose();
+
+					chessesMustMove = Check.allChessMustMove(board, turn.getTurn());
+					if (chessesMustMove.size() > 0)
+						isPressedAllMustMove(chessesMustMove);
 					break;
 				}
 			}
 		}
 		repaint();
+	}
+
+	private boolean isContinuePos(Mark mark, Chessman chessmanIsChoose) {
+		for (Positon pos : Check.allPosCanGo(board, chessmanIsChoose)) {
+			if (pos.getRow() == mark.getRow() && pos.getCol() == mark.getColumn())
+				return true;
+		}
+		return false;
 	}
 
 	private void allChessmainNotChoose() {

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 
 public class Chessman {
@@ -87,8 +88,22 @@ public class Chessman {
 
 	}
 
+	public Ellipse2D.Double getE() {
+		return e;
+	}
+
 	public boolean isContainPoint(int x, int y) {
 		return e.contains(new Point(x, y));
+	}
+
+	public boolean equal(Chessman chessman) {
+		try {
+			if (chessman.getValue() == this.getValue() && chessman.getPositon().equal(this.positon))
+				return true;
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
 	}
 
 }

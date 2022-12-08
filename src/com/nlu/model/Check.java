@@ -67,6 +67,41 @@ public class Check {
 		return true;
 	}
 
+	public static ArrayList<Chessman> allChessMustMove(Board board, int value) {
+		ArrayList<Chessman> result = new ArrayList<>();
+		for (Chessman chessman : board.chesses) {
+			if (chessman.getValue() != value)
+				continue;
+			int row = chessman.getPositon().getRow();
+			int col = chessman.getPositon().getCol();
+
+			for (int i = -1; i <= 1; i++) {
+				for (int j = -1; j <= 1; j++) {
+					if (i == 0 && j == 0)
+						continue;
+					int rowMove1 = row + i;// di chuyen 1 dong tiep theo
+					int colMove1 = col + j;// di chuyen 1 cot tiep theo
+					if (rowMove1 < 0 || rowMove1 > 4 || colMove1 < 0 || colMove1 > 4)
+						continue;
+
+					if (posSpecial(row, col, rowMove1, colMove1))
+						continue;
+					Integer v = board.posValue(rowMove1, colMove1);
+					// vi tri co the di ke tiep phai la null va trong pham vi ban co
+					if (v == null && rowMove1 >= 0 && rowMove1 <= 4 && colMove1 >= 0 && colMove1 <= 4) {
+						ArrayList<Positon> listPosTake = listPosTake(board, chessman, rowMove1, colMove1);
+						if (isTake(listPosTake)) {
+							result.add(chessman);
+						}
+					}
+
+				}
+			}
+		}
+
+		return result;
+	}
+
 	// tat ca vi tri co the di cua 1 quan co
 	public static ArrayList<Positon> allPosCanGo(Board board, Chessman chessman) {
 		ArrayList<Positon> result = new ArrayList<>();
