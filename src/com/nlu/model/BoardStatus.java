@@ -9,29 +9,10 @@ public class BoardStatus {
 	ArrayList<Integer> statusPointMans = new ArrayList<>();
 	ArrayList<Integer> statusPointBots = new ArrayList<>();
 	ArrayList<Integer> heristicStatusBoards = new ArrayList<>();
-	int level;
 
 	public BoardStatus(Board board) {
 		super();
 		this.board = board;
-	}
-
-	public BoardStatus(Board board, int level) {
-		super();
-		this.board = board;
-		this.level = level;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	private void miniMax() {
-
 	}
 
 	// them 1 trang thai ban co vao listStatus

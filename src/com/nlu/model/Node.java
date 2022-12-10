@@ -7,6 +7,7 @@ public class Node {
 	List<Node> neighbours = new ArrayList<>();
 	boolean visited = false;
 	Node parent;
+	int level;
 	private ArrayList<ArrayList<Integer>> arrBoard;
 
 	public Node() {
@@ -34,6 +35,14 @@ public class Node {
 			}
 		}
 		return heristicMan;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	// diem so quan co may

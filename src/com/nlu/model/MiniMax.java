@@ -4,11 +4,8 @@ import java.util.ArrayList;
 
 public class MiniMax {
 	Board board;
-	ArrayList<Node> listStatus = new ArrayList<>();
+	ArrayList<Node> TreeNode = new ArrayList<>();
 	int count = 0;
-	ArrayList<Integer> statusPointMans = new ArrayList<>();
-	ArrayList<Integer> statusPointBots = new ArrayList<>();
-	ArrayList<Integer> heristicStatusBoards = new ArrayList<>();
 	int level;
 
 	public MiniMax(Board board) {
@@ -20,6 +17,21 @@ public class MiniMax {
 		super();
 		this.board = board;
 		this.level = level;
+		createTreeNode();
+	}
+
+	public void createTreeNode() {
+		Board boardClone = board;
+		while (count == level) {
+			for (Chessman chess : boardClone.getChesses()) {
+				for (Positon pos : Check.allPosCanGo(boardClone, chess)) {
+					boardClone.chessMove(chess, pos);
+					TreeNode.add(new Node(null, boardClone.getArrBoard()));
+				}
+			}
+
+			count++;
+		}
 	}
 
 	public int getLevel() {
@@ -28,10 +40,6 @@ public class MiniMax {
 
 	public void setLevel(int level) {
 		this.level = level;
-	}
-
-	private void miniMax() {
-
 	}
 
 }
