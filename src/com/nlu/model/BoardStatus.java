@@ -9,13 +9,32 @@ public class BoardStatus {
 	ArrayList<Integer> statusPointMans = new ArrayList<>();
 	ArrayList<Integer> statusPointBots = new ArrayList<>();
 	ArrayList<Integer> heristicStatusBoards = new ArrayList<>();
+	int level;
 
 	public BoardStatus(Board board) {
 		super();
 		this.board = board;
 	}
-	
-	//them 1 trang thai ban co vao listStatus
+
+	public BoardStatus(Board board, int level) {
+		super();
+		this.board = board;
+		this.level = level;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	private void miniMax() {
+
+	}
+
+	// them 1 trang thai ban co vao listStatus
 	public void addStatus() {
 		listStatus.add(board.getArrBoard());
 		int numberPiecesMan = countPiecesMan(board.getArrBoard());
@@ -25,7 +44,8 @@ public class BoardStatus {
 		heristicStatusBoards.add(numberPiecesMan - numberPieceBot);
 		count++;
 	}
-	//diem so quan co nguoi
+
+	// diem so quan co nguoi
 	public int countPiecesMan(ArrayList<ArrayList<Integer>> arrBoard) {
 		int heristicMan = 0;
 		for (ArrayList<Integer> row : arrBoard) {
@@ -38,7 +58,8 @@ public class BoardStatus {
 		}
 		return heristicMan;
 	}
-	//diem so quan co may
+
+	// diem so quan co may
 	public int countPiecesBot(ArrayList<ArrayList<Integer>> arrBoard) {
 		int heristicBot = 0;
 		for (ArrayList<Integer> row : arrBoard) {

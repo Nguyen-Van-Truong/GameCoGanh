@@ -1,4 +1,4 @@
-package com.nlu.controller;
+package com.nlu.model;
 
 public class Turn {
 	private int turn;

@@ -10,19 +10,18 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import com.nlu.controller.Turn;
 import com.nlu.model.Board;
 import com.nlu.model.Check;
 import com.nlu.model.Chessman;
 import com.nlu.model.Positon;
+import com.nlu.model.Turn;
 
 public class BoardPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Board board = new Board();
-	private Turn turn = new Turn();
+	private Turn turn = board.getTurn();
 	private ArrayList<Positon> continuePos = new ArrayList<>();
 	private ArrayList<Mark> arrlMark;
-	private ArrayList<Chessman> chessesMustMove = new ArrayList<>();
 
 	public BoardPanel() {
 		init();
@@ -54,11 +53,11 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void isPressedChessman(int x, int y) {
-		if (chessesMustMove.size() == 0) {
+		if (board.getChessesMustMove().size() == 0) {
 			continuePos.clear();
 		}
-		for (Chessman chessman : board.chesses) {
-			if (chessesMustMove.size() > 0)
+		for (Chessman chessman : board.getChesses()) {
+			if (board.getChessesMustMove().size() > 0)
 				if (!isContainsInMustMove(chessman))
 					continue;
 			if (chessman.isContainPoint(x, y) && chessman.getValue() == turn.getTurn()) {
@@ -75,13 +74,12 @@ public class BoardPanel extends JPanel {
 		chessesMustMove2.get(0).isChoose = true;
 		for (Chessman chessman : chessesMustMove2) {
 			continuePos.addAll(Check.allPosCanGo(board, chessman));
-			System.out.println("Asdsad");
 		}
 		repaint();
 	}
 
 	private boolean isContainsInMustMove(Chessman chessman) {
-		for (Chessman c : chessesMustMove) {
+		for (Chessman c : board.getChessesMustMove()) {
 			if (c.equal(chessman))
 				return true;
 		}
@@ -90,7 +88,7 @@ public class BoardPanel extends JPanel {
 
 	private void moveChessman(int x, int y) {
 		Chessman chessmanIsChoose = null;
-		for (Chessman chessman : board.chesses) {
+		for (Chessman chessman : board.getChesses()) {
 			if (chessman.isChoose == true)
 				chessmanIsChoose = chessman;
 		}
@@ -103,14 +101,12 @@ public class BoardPanel extends JPanel {
 								|| mark.getColumn() != chessmanIsChoose.getColumn())
 						&& isContinuePos(mark, chessmanIsChoose)) {
 					board.chessMove(chessmanIsChoose, mark.getPositon());
-					turn.setTurn(turn.getTurn() * -1);
-
 					continuePos.clear();
 					allChessmainNotChoose();
 
-					chessesMustMove = Check.allChessMustMove(board, turn.getTurn());
-					if (chessesMustMove.size() > 0)
-						isPressedAllMustMove(chessesMustMove);
+					board.setChessesMustMove(Check.allChessMustMove(board, turn.getTurn()));
+					if (board.getChessesMustMove().size() > 0)
+						isPressedAllMustMove(board.getChessesMustMove());
 					break;
 				}
 			}
@@ -127,7 +123,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void allChessmainNotChoose() {
-		for (Chessman chessman : board.chesses) {
+		for (Chessman chessman : board.getChesses()) {
 			chessman.isChoose = false;
 		}
 	}
@@ -192,7 +188,7 @@ public class BoardPanel extends JPanel {
 		g2D.drawLine(45, 450, 450, 858);
 		g2D.drawLine(450, 44, 856, 450);
 
-		ArrayList<Chessman> ss = board.chesses;
+		ArrayList<Chessman> ss = board.getChesses();
 		for (Chessman chessman : ss) {
 			chessman.draw(g);
 		}

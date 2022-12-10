@@ -9,7 +9,7 @@ public class Check {
 	public static ArrayList<Positon> encircle(Board board, int value) {
 		// quan co phai la quan co khac gia tri voi quan co vua di
 		ArrayList<Positon> result = new ArrayList<>();
-		for (Chessman chess : board.chesses) {
+		for (Chessman chess : board.getChesses()) {
 //			System.out.println(isInclosed(board, chess));
 			if (isInclosed(board, chess)) {
 				System.out.println("aa:" + chess.getPositon());
@@ -69,7 +69,7 @@ public class Check {
 
 	public static ArrayList<Chessman> allChessMustMove(Board board, int value) {
 		ArrayList<Chessman> result = new ArrayList<>();
-		for (Chessman chessman : board.chesses) {
+		for (Chessman chessman : board.getChesses()) {
 			if (chessman.getValue() != value)
 				continue;
 			int row = chessman.getPositon().getRow();
