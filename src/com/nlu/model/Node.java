@@ -8,15 +8,15 @@ public class Node {
 	boolean visited = false;
 	Node parent;
 	int level;
-	private ArrayList<ArrayList<Integer>> arrBoard;
+	Board board;
 
 	public Node() {
 	}
 
-	public Node(Node parent, ArrayList<ArrayList<Integer>> arrBoard) {
+	public Node(Node parent, Board board) {
 		super();
 		this.parent = parent;
-		this.arrBoard = arrBoard;
+		this.board = board;
 	}
 
 	public int heristics() {
@@ -26,7 +26,7 @@ public class Node {
 	// diem so quan co nguoi
 	public int countPiecesMan() {
 		int heristicMan = 0;
-		for (ArrayList<Integer> row : arrBoard) {
+		for (ArrayList<Integer> row : board.getArrBoard()) {
 			for (Integer value : row) {
 				if (value == null)
 					continue;
@@ -45,10 +45,18 @@ public class Node {
 		this.level = level;
 	}
 
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
 	// diem so quan co may
 	public int countPiecesBot() {
 		int heristicBot = 0;
-		for (ArrayList<Integer> row : arrBoard) {
+		for (ArrayList<Integer> row : board.getArrBoard()) {
 			for (Integer value : row) {
 				if (value == null)
 					continue;
@@ -83,16 +91,13 @@ public class Node {
 		this.parent = parent;
 	}
 
-	public ArrayList<ArrayList<Integer>> getArrBoard() {
-		return arrBoard;
-	}
-
-	public void setArrBoard(ArrayList<ArrayList<Integer>> arrBoard) {
-		this.arrBoard = arrBoard;
-	}
-
 	public void setNeighbours(List<Node> neighbours) {
 		this.neighbours = neighbours;
+	}
+
+	@Override
+	public String toString() {
+		return "Node [board=" + board + "level:" + level + "]";
 	}
 
 }

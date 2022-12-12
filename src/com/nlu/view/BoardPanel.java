@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.nlu.model.Board;
@@ -53,13 +54,14 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void isPressedChessman(int x, int y) {
-		if (board.getChessesMustMove().size() == 0) {
+		ArrayList<Chessman> chessesMustMove = board.getChessesMustMove();
+		if (chessesMustMove.size() == 0) {
 			continuePos.clear();
 		}
 		for (Chessman chessman : board.getChesses()) {
-			if (board.getChessesMustMove().size() > 0)
-				if (!isContainsInMustMove(chessman))
-					continue;
+//			if (chessesMustMove.size() > 0)
+//				if (!chessesMustMove.contains(chessman))
+//					continue;
 			if (chessman.isContainPoint(x, y) && chessman.getValue() == turn.getTurn()) {
 				allChessmainNotChoose();
 				continuePos = Check.allPosCanGo(board, chessman);
@@ -160,6 +162,13 @@ public class BoardPanel extends JPanel {
 	}
 
 	public void paint(Graphics g) {
+		if (board.isGameOver()) {
+			if (board.heristics() > 0) {
+				JOptionPane.showMessageDialog(this, "Ben do Win");
+			} else {
+				JOptionPane.showMessageDialog(this, "Ben do Win");
+			}
+		}
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.setStroke(new BasicStroke(3));
 

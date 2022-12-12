@@ -57,7 +57,7 @@ public class Chessman {
 
 	@Override
 	public String toString() {
-		return value + "";
+		return value + "" + positon;
 	}
 
 	public Chessman clone() {

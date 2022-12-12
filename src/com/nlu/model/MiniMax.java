@@ -22,18 +22,25 @@ public class MiniMax {
 
 	public void createTreeNode() {
 		Board boardClone = board;
+//		TreeNode.add(new Node(null, boardClone.getArrBoard()));
+		Node initial = new Node(null, boardClone);
+		Node parent = initial;
 		while (count == level) {
 			for (Chessman chess : boardClone.getChesses()) {
-				for (Positon pos : Check.allPosCanGo(boardClone, chess)) {
-					boardClone.chessMove(chess, pos);
-					TreeNode.add(new Node(null, boardClone.getArrBoard()));
-				}
+				if (chess.getValue() == boardClone.getTurn().getTurn())
+					for (Positon pos : Check.allPosCanGo(boardClone, chess)) {
+						if (boardClone.chessMove(chess, pos)) {
+							Node child = new Node(parent, boardClone);
+							parent.addNeighbours(child);
+						}
+					}
 			}
-
 			count++;
 		}
 	}
 
+
+	
 	public int getLevel() {
 		return level;
 	}

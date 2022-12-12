@@ -12,7 +12,6 @@ public class Check {
 		for (Chessman chess : board.getChesses()) {
 //			System.out.println(isInclosed(board, chess));
 			if (isInclosed(board, chess)) {
-				System.out.println("aa:" + chess.getPositon());
 				if (chess.getValue() == value)
 					result.add(chess.getPositon());
 			}
@@ -134,8 +133,8 @@ public class Check {
 			}
 		}
 		if (mustMove.size() > 0) {
-			System.out.println("doi phuong da mo duong, ban phai ganh");
-			System.out.println(mustMove);
+//			System.out.println("doi phuong da mo duong, ban phai ganh");
+//			System.out.println(mustMove);
 			return mustMove;
 		}
 		return result;
@@ -186,28 +185,24 @@ public class Check {
 		// 2 ben tren duoi
 		if (compareNumber(board.posValue(rowMove1 + 1, colMove1), (chessman.getValue() * -1))
 				&& compareNumber(board.posValue(rowMove1 - 1, colMove1), (chessman.getValue() * -1))) {
-			System.out.println(1);
 			result.add(new Positon(rowMove1 + 1, colMove1));
 			result.add(new Positon(rowMove1 - 1, colMove1));
 		}
 //			// 2 ben trai phai
 		if (compareNumber(board.posValue(rowMove1, colMove1 + 1), (chessman.getValue() * -1))
 				&& compareNumber(board.posValue(rowMove1, colMove1 - 1), (chessman.getValue() * -1))) {
-			System.out.println(2);
 			result.add(new Positon(rowMove1, colMove1 + 1));
 			result.add(new Positon(rowMove1, colMove1 - 1));
 		}
 		// 2 ben duong cheo trai qua phai
 		if ((compareNumber(board.posValue(rowMove1 + 1, colMove1 - 1), (chessman.getValue() * -1)))
 				&& (compareNumber(board.posValue(rowMove1 - 1, colMove1 + 1), (chessman.getValue() * -1)))) {
-			System.out.println(3);
 			result.add(new Positon(rowMove1 + 1, colMove1 - 1));
 			result.add(new Positon(rowMove1 - 1, colMove1 + 1));
 		}
 		// 2 ben duong cheo phai qua trai
 		if ((compareNumber(board.posValue(rowMove1 + 1, colMove1 + 1), (chessman.getValue() * -1)))
 				&& (compareNumber(board.posValue(rowMove1 - 1, colMove1 - 1), (chessman.getValue() * -1)))) {
-			System.out.println(4);
 			result.add(new Positon(rowMove1 + 1, colMove1 + 1));
 			result.add(new Positon(rowMove1 - 1, colMove1 - 1));
 		}
