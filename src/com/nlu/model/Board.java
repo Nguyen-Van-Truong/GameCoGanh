@@ -101,6 +101,7 @@ public class Board {
 		}
 		arrBoard = newArrBoard;
 		boardStatus.addStatus();
+
 	}
 
 	private void updateNotAddStatus() {
@@ -124,16 +125,22 @@ public class Board {
 		if (dept == 0 || isGameOver()) {
 			return;
 		}
-		Board boardClone = root.getBoard();
+		Board board = root.getBoard().boardClone();
 		System.out.println(root);
-		for (Chessman chess : boardClone.getChesses()) {
-			if (chess.getValue() == boardClone.getTurn().getTurn())
-				for (Positon pos : Check.allPosCanGo(boardClone, chess)) {
-					if (boardClone.chessMove(chess, pos)) {
-						Node child = new Node(root, boardClone);
+//		System.out.println(board.getChesses());
+		for (Chessman chess : board.getChesses()) {
+			if (chess.getValue() == board.getTurn().getTurn())
+				for (Positon pos : Check.allPosCanGo(board, chess)) {
+					Positon posRevert = chess.getPositon();
+					boolean chessMove = board.chessMove(chess, pos);
+					if (chessMove) {
+						System.out.println(chess.getPositon());
+						Node child = new Node(root, board);
 						child.setLevel(dept);
 						System.out.println(child);
 						root.addNeighbours(child);
+						board.getTurn().setTurn(board.getTurn().getTurn() * -1);
+						board.chessMove(chess, posRevert);
 						minimax(child, dept - 1);
 					}
 				}
@@ -196,14 +203,22 @@ public class Board {
 		}
 	}
 
+	public Board boardClone() {
+		Board result = new Board();
+		result.setArrBoard(arrBoard);
+		result.setChesses(chesses);
+		result.setTurn(turn);
+		result.setChessesMustMove(chessesMustMove);
+		return result;
+	}
+
 	public ArrayList<Chessman> getChesses() {
 		return chesses;
 	}
 
 	public static void main(String[] args) {
 		Board board = new Board();
-		board.minimax(new Node(null, board), 5);
-		
+		board.minimax(new Node(null, board), 2);
 //		Chessman chess42 = board.posChess(4, 2);
 //		Chessman chess02 = board.posChess(0, 2);
 //		Chessman chess01 = board.posChess(0, 1);
@@ -229,8 +244,28 @@ public class Board {
 //		System.out.println(Check.encircle(board, 1));
 //		for (Chessman c : Check.allChessMustMove(board, 1)) {
 //			System.out.print(c.getPositon() + ";");
-		
+
 //		}
 	}
-	
+
+	public BoardStatus getBoardStatus() {
+		return boardStatus;
+	}
+
+	public void setBoardStatus(BoardStatus boardStatus) {
+		this.boardStatus = boardStatus;
+	}
+
+	public void setArrBoard(ArrayList<ArrayList<Integer>> arrBoard) {
+		this.arrBoard = arrBoard;
+	}
+
+	public void setChesses(ArrayList<Chessman> chesses) {
+		this.chesses = chesses;
+	}
+
+	public void setTurn(Turn turn) {
+		this.turn = turn;
+	}
+
 }

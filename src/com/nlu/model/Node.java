@@ -16,7 +16,7 @@ public class Node {
 	public Node(Node parent, Board board) {
 		super();
 		this.parent = parent;
-		this.board = board;
+		this.board = board.boardClone();
 	}
 
 	public int heristics() {
